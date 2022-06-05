@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 
-# 导入ardnspod函数
+# 导入ardnspod函数，记得修改这个位置
 . /usr/ddns/ardnspod
 
 # 将您的ID和令牌组合在一起，如下所示
