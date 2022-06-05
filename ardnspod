@@ -54,12 +54,12 @@ arWanIp4() {
     fi
 
     if [ -z "$hostIp" ]; then
-        echo "arWanIp4 - Can't get ip address"
+        echo "arWanIp4 - 无法获取ip地址"
         return 1
     fi
 
     if [ -z "$(echo $hostIp | grep -E '^[0-9\.]+$')" ]; then
-        echo "arWanIp4 - Invalid ip address $hostIp"
+        echo "arWanIp4 - ip地址无效 $hostIp"
         return 1
     fi
 
@@ -93,12 +93,12 @@ arWanIp6() {
     fi
 
     if [ -z "$hostIp" ]; then
-        echo "arWanIp6 - Can't get ip address"
+        echo "arWanIp6 - 无法获取ip地址"
         return 1
     fi
 
     if [ -z "$(echo $hostIp | grep -E '^[0-9a-fA-F:]+$')" ]; then
-        echo "arWanIp6 - Invalid ip address"
+        echo "arWanIp6 - ip地址无效"
         return 1
     fi
 
@@ -208,7 +208,7 @@ arDdnsUpdate() {
 
     # Output Result
     if [ "$recordIp" = "$4" ] && [ "$recordCd" = "1" ]; then
-        echo "arDdnsUpdate - success"
+#        echo "arDdnsUpdate - 成功"
         return 0
     else
         errMsg=$(echo $recordRs | sed 's/.*,"message":"\([^"]*\)".*/\1/')
@@ -230,8 +230,10 @@ arDdnsCheck() {
     local ddnsIds
     local lastIp
     local postRs
-
-    echo "Fetching Host Ip"
+echo "##################################################"
+time=$(date "+%Y-%m-%d %H:%M:%S")
+echo $time
+#    echo "Fetching Host Ip"
     if [ "$3" = "6" ]; then
         recordType=AAAA
         hostIp=$(arWanIp6)
@@ -241,36 +243,36 @@ arDdnsCheck() {
     fi
 
     errCode=$?
-    echo "> Host Ip: $hostIp"
-    echo "> Record Type: $recordType"
+    echo "> 主机ip: $hostIp"
+#    echo "> 记录类型: $recordType"
     if [ $errCode -ne 0 ]; then
         return 1
     fi
 
-    echo "Fetching Ids of $2.$1"
+#    echo "Fetching Ids of $2.$1"
     ddnsIds=$(arDdnsIds "$recordType" "$1" "$2")
 
     errCode=$?
-    echo "> Domain Ids: $ddnsIds"
+#    echo "> Domain Ids: $ddnsIds"
     if [ $errCode -ne 0 ]; then
         return 1
     fi
 
-    echo "Checking Record for $2.$1"
+#    echo "正在检查记录 $2.$1"
     lastIp=$(arDdnsRecordIp $ddnsIds)
 
     errCode=$?
-    echo "> Last Ip: $lastIp"
+    echo "> 最近ip: $lastIp"
     if [ $errCode -ne 0 ]; then
         return 1
     fi
 
     if [ "$lastIp" = "$hostIp" ]; then
-        echo "> Last Ip is the same as host Ip"
+        echo "> ip无变化"
         return 0
     fi
 
-    echo "Updating Record for $2.$1"
+#    echo "正则更新记录 $2.$1"
     postRs=$(arDdnsUpdate $ddnsIds "$2" "$hostIp" "$recordType")
 
     errCode=$?
