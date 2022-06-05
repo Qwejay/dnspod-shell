@@ -1,20 +1,20 @@
-#!/bin/sh
+#!/bin/bash
 #
 
-# Import ardnspod functions
-. /your_real_path/ardnspod
+# 导入ardnspod函数
+. /usr/ddns/ardnspod
 
-# Combine your token ID and token together as follows
-arToken="12345,7676f344eaeaea9074c123451234512d"
+# 将您的ID和令牌组合在一起，如下所示
+arToken="123456,7676f344eaeaea9074c123451234512d"
 
-# Force to use third party API to get IP or not
+# 是否强制使用第三方API获取IP
 forceUseThirdApi=false
 
-# Place each domain you want to check as follows
-# you can have multiple arDdnsCheck blocks
+# 按如下方式放置您想要检查的每个域
+# 您可以有多个arDdnsCheck块
 
 # IPv4:
-arDdnsCheck "test.org" "subdomain"
+arDdnsCheck "qwejay.cn" "pi"
 
 # IPv6:
-arDdnsCheck "test.org" "subdomain6" 6
+arDdnsCheck "qwejay.cn" "pi6" 6
